@@ -41,11 +41,13 @@ class Public_Chat{
     fetchPreviousChat(){
         this.io.emit("default-chat", this.chat)
     }
-
-    async sendMessages(data){
+    async saveMessages(data){
+        await Chats.create(data)
+    }
+     sendMessages(data){
         this.chat = [...this.chat, data]
         this.io.emit("chats", this.chat)
-        await Chats.create(data)
+        saveMessages(data)
     }
     connection(){
         this.io.on("connection", (stream)=>{
