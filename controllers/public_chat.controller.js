@@ -47,7 +47,7 @@ class Public_Chat{
      sendMessages(data){
         this.chat = [...this.chat, data]
         this.io.emit("chats", this.chat)
-        saveMessages(data)
+        this.saveMessages(data)
     }
     connection(){
         this.io.on("connection", (stream)=>{
