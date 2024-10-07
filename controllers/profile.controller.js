@@ -51,5 +51,46 @@ const externalProfile = (async(req, res)=>{
       return res.status(403).json({error:"Server Error"})
   }
 })
+
+const handleChangUsername = (async(req, res)=>{
+  try{
+      const {username} = req.body
+     const user_id = req.id
+     const usernameExist = await Profile.findOne({username})
+      if(usernameExist){
+        return res.status(403).json({error: "Username already exist"})
+      }
+     await Profile.updateOne({user_id},{
+          username
+     })
+     const user = await Profile.findOne({user_id})
+      return res.status(200).json(user)
+  }
+  catch(err){
+      console.log(err)
+      return res.status(403).json({error: "Server Error"})
+  }
+})
+
+const handleChangeProflePicture = (async(req, res)=>{
+  const user_id = req.id
+  const { img } = req.body
+  try{
+      if(!user_id){
+          return res.status(403).json({error: "Invalid User_id"})
+      }
+      await Profile.updateOne({user_id},{
+        profile_image: img
+      })
+      const user = await Profile.findOne({user_id})
+      return res.status(200).json(user)
+  }
+  catch(err){
+      console.log(err)
+      return res.status(403).json({error: "Server Error"})
+  }
+})
   
-module.exports = { createProfile, handleProfile, externalProfile }
+module.exports = { createProfile, handleProfile, externalProfile, handleChangUsername 
+  ,handleChangeProflePicture
+}
