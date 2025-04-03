@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const Wallet = require("./wallet.controllers")
 const validator = require("validator")
 const Profile = require("../model/profile.model")
 const Auth = require("../model/auth.model")
@@ -73,7 +74,7 @@ const handleSignup = (async(req, res)=>{
                 born: "",
                 firstname: '',
                 lastname: '',
-                user_id: user_id,
+                user_id,
                 hide_profile: false,
                 hidden_from_public: false,
                 refuse_friends_request: false,
@@ -94,6 +95,7 @@ const handleSignup = (async(req, res)=>{
                 usd_reward : 100, 
                 total_chat_messages:0,
             }
+             await Wallet.initializedWallets(user_id)
             await Auth.create(_auth)
             const _profile = await createProfile(result)
             return res.status(200).json({profile:_profile , token})

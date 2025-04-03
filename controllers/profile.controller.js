@@ -1,5 +1,6 @@
 const Profile = require("../model/profile.model")
 const UserAuth = require("../model/auth.model")
+const Wallet = require("./wallet.controllers")
 
 const createProfile = (async(datas)=>{
     try{
@@ -19,12 +20,12 @@ const createProfile = (async(datas)=>{
             return res.status(403).json({error: "Invalid user ID"})
         }
         else{
-            // let wallet = await handleAllWallets(user_id)
+            let _wallet = await Wallet.fetchWallet(user_id)
             const user = await Profile.findOne({user_id})
             if(!user){
                 return res.status(403).json({error: "User not found"})
             }
-          return res.status(200).json({user})
+          return res.status(200).json({user, default_wallet: _wallet})
         }
     }
     catch(err){

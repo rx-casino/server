@@ -18,7 +18,7 @@ app.use(cors());
 app.get("/", (req, res)=>{
     res.send("Welcome to xr-casino backend server");
 })
-
+ 
 const server = createServer(app);
 async function main() {
   createsocket(server);
@@ -34,7 +34,7 @@ app.use(function (err, req, res, next) {
         code  : 500,
         error : `Can't find ${err.stack}`
     });
-  });
+});
   
   // 404 handler
   app.use(function (req, res, next) {
@@ -47,7 +47,7 @@ app.use(function (err, req, res, next) {
 
   mongoose.set('strictQuery', false);
   const dbUri = `mongodb+srv://highscoreteh:AoUXugCyZEfpBmMx@cluster0.xmpkpjc.mongodb.net/rx-casino?retryWrites=true&w=majority`
-//   const dbUri = `mongodb://localhost:27017/rx-casino`;
+  // const dbUri = `mongodb://localhost:27017/rx-casino`;
   mongoose.connect(dbUri, { useNewUrlParser: true,  useUnifiedTopology: true })
       .then((result)=>  console.log('Database connected'))
       .catch((err)=> console.log(err))
